@@ -14,35 +14,32 @@ openai_api_key = os.environ.get("OPENAI_KEY")
 with st.sidebar:
     pass
 
-st.title("🤖 AWS Cloud Practitioner Search")
+st.title("Web Search Chat")
 
 """
-Ask me about any AWS Service and I will tell you all about it using up to date information. 
+Ask me anything and I can search the web for your answer. 
 """
 
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [
+    st.session_state["webchat_messages"] = [
         {"role": "system", "content": "You are a helpful tutor for the AWS Cloud Practitioner exam. Your job is to teach the user about the AWS Service they are asking about. When teaching about an AWS Service, always relate how the service is relevant to the AWS Cloud Practitioner Exam. If you don't know the answer to something, you look it up."},
-        {"role": "assistant", "content": "Hi, I'm a chatbot who can help you learn about AWS Services. What would you like to learn about today?"}
+        {"role": "assistant", "content": "Hi, what are you curious about today?"}
     ]
 
-for msg in st.session_state.messages:
+for msg in st.session_state.webchat_messages:
     if msg["role"] != "system":
         st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input(placeholder="Who won the Women's U.S. Open in 2018?"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.webchat_messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-        st.stop()
 
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key, streaming=True)
     search = DuckDuckGoSearchRun(name="Search")
     search_agent = initialize_agent([search], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True, verbose=True)
     with st.chat_message("assistant"):
         st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-        response = search_agent.run(st.session_state.messages, callbacks=[st_cb])
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        response = search_agent.run(st.session_state.webchat_messages, callbacks=[st_cb])
+        st.session_state.webchat_messages.append({"role": "assistant", "content": response})
         st.write(response)
