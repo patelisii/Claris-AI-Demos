@@ -163,3 +163,7 @@ cython_debug/
 .streamlit/
 article_gen.py
 .DS_Store
+
+
+# development
+dev/
