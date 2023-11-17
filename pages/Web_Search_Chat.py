@@ -20,7 +20,7 @@ st.title("Web Search Chat")
 Ask me anything and I can search the web for your answer. 
 """
 
-if "messages" not in st.session_state:
+if "webchat_messages" not in st.session_state:
     st.session_state["webchat_messages"] = [
         {"role": "system", "content": "You are a helpful tutor for the AWS Cloud Practitioner exam. Your job is to teach the user about the AWS Service they are asking about. When teaching about an AWS Service, always relate how the service is relevant to the AWS Cloud Practitioner Exam. If you don't know the answer to something, you look it up."},
         {"role": "assistant", "content": "Hi, what are you curious about today?"}
