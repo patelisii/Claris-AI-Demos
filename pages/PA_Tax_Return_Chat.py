@@ -11,7 +11,7 @@ from langchain.docstore.document import Document
 
 from langchain.agents import AgentType
 from langchain.agents import initialize_agent
-from langchain.agents.agent_toolkits import create_conversational_retrieval_agent, create_retriever_tool
+from langchain.agents.agent_toolkits import create_retriever_tool
 from langchain.tools import DuckDuckGoSearchRun
 from langchain.chat_models import ChatOpenAI
 

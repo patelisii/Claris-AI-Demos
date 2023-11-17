@@ -1,1 +1,8 @@
-langchain==0.0.333
+langchain
+streamlit
+python-dotenv
+pypdf
+openai
+tiktoken
+faiss-cpu
+duckduckgo-search
