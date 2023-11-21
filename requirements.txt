@@ -6,3 +6,5 @@ openai
 tiktoken
 faiss-cpu
 duckduckgo-search
+llama-index
+span-marker

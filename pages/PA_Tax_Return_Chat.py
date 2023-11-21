@@ -20,7 +20,7 @@ from langchain.callbacks import StreamlitCallbackHandler
 load_dotenv()
 os.environ['OPENAI_API_KEY'] = os.environ.get("OPENAI_KEY")
 
-loader = PyPDFLoader('tax_docs/pa_tax_return.pdf')
+loader = PyPDFLoader('tax_docs/f1040 - Test 1.pdf')
 pages = loader.load_and_split()
 
 faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings())
@@ -33,14 +33,14 @@ def search_api(query: str) -> list[Document]:
 
 # Create retriever tool
 retriever_tool = create_retriever_tool(retriever, 
-                                       "PA Tax Return Instructions", 
-                                       "This tool searched through the Pennsylvania Tax Return Instructions released by the government.") 
+                                       "1040 Form search", 
+                                       "This tool searches through 1040 tax forms.") 
 
 # Create web search tool
 web_tool = DuckDuckGoSearchRun(name="Web search for if the user asks specifically about recent or future changes to policies.")
 
 # List of tools
-tools = [retriever_tool, web_tool]
+tools = [retriever_tool] # , web_tool]
 
 
 with st.sidebar:
@@ -54,15 +54,15 @@ Ask me about any Tax Policies and I will tell you all about it using up to date 
 
 if "taxchat_messages" not in st.session_state:
     st.session_state["taxchat_messages"] = [
-        {"role": "system", "content": "You are a helpful assistant who answers questions about PA tax law. "},
-        {"role": "assistant", "content": "Hi, I'm a chatbot who can help you learn about PA tax laws. What would you like to learn about today?"}
+        {"role": "system", "content": "You are a helpful assistant who answers questions about information found on given tax forms."},
+        {"role": "assistant", "content": "Hi, how can I help you today?"}
     ]
 
 for msg in st.session_state.taxchat_messages:
     if msg["role"] != "system":
         st.chat_message(msg["role"]).write(msg["content"])
 
-if prompt := st.chat_input(placeholder="What are the main components of a 2023 PA tax return?"):
+if prompt := st.chat_input(placeholder="What is the amount owed on my 1040 tax form?"):
     st.session_state.taxchat_messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
