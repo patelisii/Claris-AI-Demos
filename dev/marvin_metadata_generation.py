@@ -1,11 +1,10 @@
 from llama_index import SimpleDirectoryReader
 from llama_index.indices.service_context import ServiceContext
 from llama_index.llms import OpenAI
-from llama_index.text_splitter import TokenTextSplitter
-from llama_index.node_parser.extractors.marvin_metadata_extractor import (
+from llama_index.node_parser import TokenTextSplitter
+from llama_index.extractors.marvin_metadata_extractor import (
     MarvinMetadataExtractor,
 )
-
 import os
 from dotenv import load_dotenv
 

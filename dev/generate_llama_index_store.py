@@ -45,4 +45,9 @@ index = VectorStoreIndex(nodes, service_context=service_context)
 
 
 
-index.storage_context.persist(persist_dir="vector_store")
+# index.storage_context.persist(persist_dir="vector_store")
+
+query_engine = index.as_query_engine(k=1)
+response = query_engine.query("What was April Hensley's federal income tax witheld?")
+print(response)
+print(response.source_nodes)

@@ -12,6 +12,7 @@ storage_context = StorageContext.from_defaults(persist_dir="vector_store")
 # load index
 index = load_index_from_storage(storage_context)
 
-query_engine = index.as_query_engine(k=2)
-response = query_engine.query("What was Laura Russo's federal income tax witheld?")
+query_engine = index.as_query_engine(k=1)
+response = query_engine.query("What was April Hensley's federal income tax witheld?")
 print(response)
+print(response.source_nodes)
